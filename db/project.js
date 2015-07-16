@@ -9,7 +9,7 @@ var ProjectSchema = new mongoose.Schema({
 
 
 ProjectSchema.static('getList', function (cb) {
-    return this.find().exec(cb);
+    return this.find().sort({upDateTime: -1}).exec(cb);
 });
 
 ProjectSchema.static('delProject', function (projectId, cb) {
