@@ -2,7 +2,9 @@ var mongoose = require('mongoose');
 
 var ProjectSchema = new mongoose.Schema({
     projectName: String,
-    description: String
+    description: String,
+    upDateTime: Date,
+    releaseTime: Date
 });
 
 
@@ -18,7 +20,8 @@ ProjectSchema.static('getProject', function (projectId, cb) {
     return this.findById(projectId, cb)
 });
 
-ProjectSchema.static('updateProject', function (newProject,cb) {
+ProjectSchema.static('updateProject', function (newProject, cb) {
+    newProject.upDateTime = new Date();
     return this.findOneAndUpdate({
         _id: newProject.uid
     }, newProject, {'new': true}).exec(cb);
