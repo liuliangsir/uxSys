@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>用研展示-管理编辑页</title>
+    <link rel="stylesheet" href="http://image.yihaodianimg.com/mobile-ued/FFF/v0.1.2/style/base.css">
+    <link rel="stylesheet" href="/css/ux.css">
 </head>
 <body>
-<form id="projectForm">
+<form id="projectForm"   class="W_uxContent">
     <ul>
         <li><span>项目名称：</span><input type="text" name="projectName" value="<%=model.projectName%>" placeholder="请输入项目名字" required></li>
         <li><span>项目描述：</span><textarea name="description"  placeholder="请输入项目描述" required><%=model.description%></textarea></li>

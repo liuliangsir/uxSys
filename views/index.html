@@ -2,11 +2,13 @@
 <html>
 <head>
     <title>用研展示</title>
+    <link rel="stylesheet" href="http://image.yihaodianimg.com/mobile-ued/FFF/v0.1.2/style/base.css">
+    <link rel="stylesheet" href="/css/ux.css">
 </head>
 <body>
 
-<ul>
-    <% if (model.length>0) { %>
+<ul class="W_uxContent">
+<% if (model.length>0) { %>
     <% model.forEach(function(el){%>
     <li>
         <h1><%=el.projectName%></h1>
@@ -14,7 +16,7 @@
         <a href="/detail?projectId=<%=el.id%>">查看全文</a>
     </li>
     <%})%>
-    <% } %>
+<% } %>
 </ul>
 
 

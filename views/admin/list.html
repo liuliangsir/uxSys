@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>用研展示-管理首页</title>
+    <link rel="stylesheet" href="http://image.yihaodianimg.com/mobile-ued/FFF/v0.1.2/style/base.css">
+    <link rel="stylesheet" href="/css/ux.css">
 </head>
 <body>
 
-<p>
+<p  class="W_uxContent">
     <a href="/admin/add">新增</a>
 </p>
 
-<ul>
+<ul  class="W_uxContent">
     <% if (model.length>0) { %>
     <% model.forEach(function(el){%>
     <li><span><%=el.projectName%></span><a href="/admin/edit?projectId=<%=el.id%>">编辑</a><a href="javascript:;" class="J_delProject" data-uid="<%=el.id%>">删除</a></li>
