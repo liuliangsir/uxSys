@@ -1,0 +1,21 @@
+{
+  "name": "uxSys",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.12.0",
+    "connect-mongo": "^0.8.1",
+    "cookie-parser": "~1.3.4",
+    "ejs": "~2.3.1",
+    "express": "~4.12.2",
+    "express-session": "^1.11.2",
+    "mongoose": "^4.0.2",
+    "morgan": "~1.5.1",
+    "multer": "^0.1.8",
+    "request": "^2.58.0",
+    "serve-favicon": "~2.2.0"
+  }
+}

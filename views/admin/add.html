@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用研展示-管理新增页</title>
+</head>
+<body>
+<form id="projectForm">
+    <ul>
+        <li><span>项目名称：</span><input type="text" name="projectName" placeholder="请输入项目名字" required></li>
+        <li><span>项目描述：</span><textarea name="description" placeholder="请输入项目描述" required></textarea></li>
+    </ul>
+    <button type="submit">确定</button>
+    <a href="/admin">取消</a>
+</form>
+
+
+<script src="http://libs.useso.com/js/jquery/2.1.1-rc2/jquery.min.js"></script>
+<script>
+    var $projectForm = $('#projectForm');
+
+
+    $projectForm.on('submit', function(e) {
+        e.preventDefault();
+        var data = new FormData(this);
+        $.ajax({
+            method: "POST",
+            url: "/addProject",
+            contentType: false,
+            processData: false,
+            data: data
+        }).done(function(msg) {
+            window.location.href = '/admin';
+        }).fail(function(msg) {
+                alert(msg);
+        });
+    });
+</script>
+</body>
+</html>

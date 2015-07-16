@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用研展示-管理首页</title>
+</head>
+<body>
+
+<p>
+    <a href="/admin/add">新增</a>
+</p>
+
+<ul>
+    <% if (model.length>0) { %>
+    <% model.forEach(function(el){%>
+    <li><span><%=el.projectName%></span><a href="/admin/edit?projectId=<%=el.id%>">编辑</a><a href="javascript:;" class="J_delProject" data-uid="<%=el.id%>">删除</a></li>
+    <%})%>
+    <% } %>
+</ul>
+
+
+<script src="http://libs.useso.com/js/jquery/2.1.1-rc2/jquery.min.js"></script>
+<script>
+    var $delProject = $('.J_delProject');
+
+
+    $delProject.on('click', function (e) {
+        var $that = $(this);
+        $.ajax({
+            method: "POST",
+            url: "/delProject",
+            data: {
+                projectId: $that.data('uid')
+            }
+        }).done(function (msg) {
+            if(msg.success){
+                $that.parent('li').remove();
+            }
+        }).fail(function (msg) {
+            alert(msg);
+        });
+    });
+
+
+
+</script>
+
+</body>
+</html>

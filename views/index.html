@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用研展示</title>
+</head>
+<body>
+
+<ul>
+    <% if (model.length>0) { %>
+    <% model.forEach(function(el){%>
+    <li>
+        <h1><%=el.projectName%></h1>
+        <h3><%=el.description%></h3>
+        <a href="/detail?projectId=<%=el.id%>">查看全文</a>
+    </li>
+    <%})%>
+    <% } %>
+</ul>
+
+
+</body>
+</html>
