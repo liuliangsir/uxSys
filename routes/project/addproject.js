@@ -8,6 +8,7 @@ var Project = require('../../db/project');
 router.post('/', function (req, res, next) {
     filter.authorize(req, res, function (req, res) {
         var project = new Project(req.body);
+        project.releaseTime = new Date();
         project.save(function (err, projectEntity) {
             if (err) {
                 res.status('500');
