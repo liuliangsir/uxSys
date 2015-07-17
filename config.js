@@ -2,7 +2,7 @@ var config = {
     NODE_ENV:'release',
     port:8787,
     passport: 'http://yhd.adanghome.com/passport',
-    domain:'http://10.161.163.77:8787',
+    domain:'http://192.168.8.166:8787',
     backHash:'/admin'
 };
 
