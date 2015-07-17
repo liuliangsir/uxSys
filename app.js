@@ -13,7 +13,7 @@ var config = require('./config');
 if (config.NODE_ENV == 'dev') {
     mongoose.connect('mongodb://ux:ux@192.168.112.94:27017/ux');
 } else {
-    mongoose.connect('mongodb://127.0.0.1:27017/wxms');
+    mongoose.connect('mongodb://127.0.0.1:27017/ux');
 }
 var MongoStore = require('connect-mongo')(session);
 
