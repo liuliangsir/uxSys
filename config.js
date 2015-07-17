@@ -1,8 +1,8 @@
 var config = {
     NODE_ENV:'dev',
-    port:9999,
+    port:8787,
     passport: 'http://yhd.adanghome.com/passport',
-    domain:'http://10.161.163.77:9999',
+    domain:'http://10.161.163.77:8787',
     backHash:'/admin'
 };
 
