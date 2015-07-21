@@ -2,7 +2,7 @@ var express = require('express');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var multer = require('multer');
+var multipart = require('connect-multiparty');
 var app = express();
 var path = require('path');
 var ejs = require('ejs');
@@ -27,9 +27,7 @@ app.use(session({
 }));
 
 
-app.use(multer({
-    dest: __dirname + '/public/uploadDir/'
-}));
+app.use(multipart());
 
 var index = require('./routes/index');
 
@@ -37,6 +35,7 @@ var admin = require('./routes/admin');
 
 var detail = require('./routes/detail');
 
+var file = require('./routes/upload/fileUpload');
 
 var addProject = require('./routes/project/addProject');
 var delProject = require('./routes/project/delProject');
@@ -58,7 +57,6 @@ app.use(bodyParser.urlencoded({
     limit: '100mb'
 }));
 app.use(cookieParser());
-app.use(multer());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -71,7 +69,7 @@ app.use('/addProject', addProject);
 app.use('/delProject', delProject);
 app.use('/updateProject', updateProject);
 
-
+app.use('/file', file);
 
 
 // catch 404 and forward to error handler
