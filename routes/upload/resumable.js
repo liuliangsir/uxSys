@@ -15,14 +15,14 @@ module.exports = resumable = function (temporaryFolder) {
 
     var cleanIdentifier = function (identifier) {
         return identifier.replace(/^0-9A-Za-z_-/img, '');
-    }
+    };
 
     var getChunkFilename = function (chunkNumber, identifier) {
         // Clean up the identifier
         identifier = cleanIdentifier(identifier);
         // What would the file name be?
         return path.join($.temporaryFolder, './resumable-' + identifier + '.' + chunkNumber);
-    }
+    };
 
     var validateRequest = function (chunkNumber, chunkSize, totalSize, identifier, filename, fileSize) {
         // Clean up the identifier
@@ -58,7 +58,7 @@ module.exports = resumable = function (temporaryFolder) {
         }
 
         return 'valid';
-    }
+    };
 
     //'found', filename, original_filename, identifier
     //'not_found', null, null, null
@@ -81,7 +81,7 @@ module.exports = resumable = function (temporaryFolder) {
         } else {
             callback('not_found', null, null, null);
         }
-    }
+    };
 
     //'partly_done', filename, original_filename, identifier
     //'done', filename, original_filename, identifier
@@ -133,13 +133,13 @@ module.exports = resumable = function (temporaryFolder) {
                             }
                         }
                     });
-                }
+                };
                 testChunkExists();
             });
         } else {
             callback(validation, filename, original_filename, identifier);
         }
-    }
+    };
 
 
     // Pipe chunks directly in to an existsing WritableStream
@@ -179,9 +179,9 @@ module.exports = resumable = function (temporaryFolder) {
                     if (options.onDone) options.onDone();
                 }
             });
-        }
+        };
         pipeChunk(1);
-    }
+    };
 
 
     $.clean = function (identifier, options) {
@@ -209,9 +209,9 @@ module.exports = resumable = function (temporaryFolder) {
 
                 }
             });
-        }
+        };
         pipeChunkRm(1);
-    }
+    };
 
     return $;
-}
+};
