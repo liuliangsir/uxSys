@@ -1,8 +1,94 @@
+html {
+    font-size: 100px;
+}
+
+body {
+    font-size: 0.12rem;
+    background-color: #ffffff;
+    text-align: center;
+    padding-bottom: 100px;
+    font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+}
+
+.browseHappy {
+    position: fixed;
+    width: 100%;
+    background-color: #FF0606;
+    height: 30px;
+    line-height: 30px;
+}
+
+.ux_head {
+    width: 100%;
+    height: 2.1rem;
+    background-color: #f8f8f8;
+    background-image: url(/images/mxc_logo.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .W_uxContent{
-    width: 40%;
+    display: -webkit-inline-flex;
+    display: -moz-inline-flex;
+    display: inline-flex;
+    -webkit-flex-flow: column wrap;
+    -moz-flex-flow: column wrap;
+    flex-flow: column wrap;
+    width: 70%;
     margin: 0 auto;
 }
 
 .W_uxContent li{
-    margin-top: 20px;
+    -webkit-flex: 1 0 auto;
+    -moz-flex: 1 0 auto;
+    flex: 1 0 auto;
+    align-self: auto;
+    padding-top: 80px;
+    text-align: left;
+}
+
+.W_uxHref{
+    color: #7d7d7d;
+}
+.W_uxTitle{
+    font-size: 0.37rem;
+    color: #535353;
+    font-weight: normal;
+}
+
+.W_uxDate{
+    font-size: 0.13rem;
+    color: #c9c9c9;
+}
+
+.W_uxDescription{
+    font-size: 0.16rem;
+    color: #7d7d7d;
+    font-weight: normal;
+    padding: 20px 0 20px 0;
+}
+
+.W_uxShow{
+     position: relative;
+    text-align: right;
+    font-size: 0.13rem;
+    color: #00a0e9;
+}
+
+.W_uxShow:before{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    content: '';
+    font-size: 0;
+    line-height: 0;
+    border-bottom: 1px solid #bdbdbd;
+    z-index: -1;
+}
+
+.W_uxShow span{
+    display: inline-block;
+    background-color: #ffffff;
+    padding-left: 10px;
 }
