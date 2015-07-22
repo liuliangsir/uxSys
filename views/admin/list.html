@@ -1,21 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- 删除苹果默认的工具栏和菜单栏 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <!-- 设置苹果工具栏颜色 -->
+    <meta name="format-detection" content="telphone=no, email=no"/>
+    <!-- 忽略页面中的数字识别为电话，忽略email识别 -->
+    <!-- 启用360浏览器的极速模式(webkit) -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+    <meta name="HandheldFriendly" content="true">
+    <!-- 微软的老式浏览器 -->
+    <meta name="MobileOptimized" content="320">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- windows phone 点击无高光 -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- 适应移动端end -->
     <title>用研展示-管理首页</title>
     <link rel="stylesheet" href="http://image.yihaodianimg.com/mobile-ued/FFF/v0.1.2/style/base.css">
     <link rel="stylesheet" href="/css/ux.css">
 </head>
 <body>
 
-<p  class="W_uxContent">
-    <a href="/admin/add">新增</a>
-</p>
+<!--[if lt IE 11]>
+<p class="browseHappy">您使用的浏览器版本<strong>过老</strong>，请<a href="http://browsehappy.com/">使用最新的浏览器</a>来提升浏览体验。</p>
+<![endif]-->
 
-<ul  class="W_uxContent">
+<header class="ux_head">
+</header>
+
+<ul class="W_uxContent">
+    <li class="W_uxAddBox">
+        <a href="/admin/add" class="W_uxAdd">
+            <img src="/images/shut_down.svg" alt="新增">
+        </a>
+    </li>
     <% if (model.length>0) { %>
     <% model.forEach(function(el){%>
-    <li><span><%=el.projectName%></span><a href="/admin/edit?projectId=<%=el.id%>">编辑</a><a href="javascript:;" class="J_delProject" data-uid="<%=el.id%>">删除</a></li>
+    <li class="W_uxFlexBox">
+        <div class="W_uxFlexItem W_uxFlexItem80">
+            <h1 class="W_uxTitle"><%=el.projectName%></h1>
+            <span class="W_uxDate">发布日期：<%=dateFormat(el.releaseTime)%></span>
+        </div>
+        <div class="W_uxFlexItem">
+            <a href="/admin/edit?projectId=<%=el.id%>">编辑</a>
+            <a href="javascript:;" class="J_delProject" data-uid="<%=el.id%>">删除</a>
+        </div>
+    </li>
     <%})%>
     <% } %>
 </ul>
@@ -35,14 +87,13 @@
                 projectId: $that.data('uid')
             }
         }).done(function (msg) {
-            if(msg.success){
-                $that.parent('li').remove();
+            if (msg.success) {
+                $that.parents('li').remove();
             }
         }).fail(function (msg) {
             alert(msg);
         });
     });
-
 
 
 </script>
