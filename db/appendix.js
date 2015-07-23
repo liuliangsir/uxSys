@@ -15,7 +15,12 @@ var AppendixSchema = new mongoose.Schema({
 AppendixSchema.static('linkProject', function (fileId, projectEntity) {
     return this.findOneAndUpdate({
         _id: fileId
-    }, {project: projectEntity}, {'new': true}).exec(function(){});
+    }, {project: projectEntity}, {'new': true}).exec(function () {
+    });
+});
+
+AppendixSchema.static('getListByProject', function (projectId, cb) {
+    return this.find({project: projectId}).exec(cb);
 });
 
 

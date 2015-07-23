@@ -14,7 +14,7 @@ router.post('/upload', function (req, res) {
         resumable.post(req, function (status, filename, original_filename, identifier) {
             //console.log('POST', status, filename, original_filename, identifier);
             if (status == 'done') {
-                var type = req.body.type;
+                var type = req.body.realType;
                 var name = req.body.realName || filename;
                 var appendix = new Appendix();
                 appendix.type = type;

@@ -118,9 +118,12 @@ module.exports = resumable = function (temporaryFolder) {
                     fs.exists(getChunkFilename(currentTestChunk, identifier), function (exists) {
                         if (exists) {
                             currentTestChunk++;
-
                             if (currentTestChunk > numberOfChunks) {
-                                callback('done', filename, original_filename, identifier);
+                                if (chunkNumber != numberOfChunks) {
+                                    callback('partly_done', filename, original_filename, identifier);
+                                } else {
+                                    callback('done', filename, original_filename, identifier);
+                                }
                             } else {
                                 // Recursion
                                 testChunkExists();
