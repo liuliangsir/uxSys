@@ -25,6 +25,7 @@ body {
     background-image: url(/images/mxc_logo.svg);
     background-repeat: no-repeat;
     background-position: center;
+    background-size: 226px 125px;
 }
 
 .W_uxContent{
@@ -56,6 +57,7 @@ body {
     color: #7d7d7d;
     font-weight: normal;
     padding: 20px 0 20px 0;
+    line-height: 0.3rem;
 }
 
 .W_uxShow{
