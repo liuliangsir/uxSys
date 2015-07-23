@@ -260,6 +260,10 @@ textarea.W_uxTextarea{
 .W_uxCenter{
     text-align: center;
 }
+.W_uxNone{
+    display: none;
+}
+
 
 
 @media screen and (max-width: 700px) {

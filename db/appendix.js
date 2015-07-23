@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var AppendixSchema = new mongoose.Schema({
-    type:String,
+    type: String,
     name: String,
     linkUrl: String,
     project: {
@@ -11,6 +11,12 @@ var AppendixSchema = new mongoose.Schema({
     }
 });
 
+
+AppendixSchema.static('linkProject', function (fileId, projectEntity) {
+    return this.findOneAndUpdate({
+        _id: fileId
+    }, {project: projectEntity}, {'new': true}).exec(function(){});
+});
 
 
 var AppendixModel = mongoose.model('Appendix', AppendixSchema);

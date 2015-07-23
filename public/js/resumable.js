@@ -889,6 +889,15 @@
         } else {
           input.removeAttribute('multiple');
         }
+
+        //liubing
+        var fileTypes = $.getOpt('fileType');
+        if(fileTypes.length>0){
+          fileTypes = fileTypes.join(',');
+          input.setAttribute('accept', fileTypes);
+        }
+        //liubing
+
         if(isDirectory){
           input.setAttribute('webkitdirectory', 'webkitdirectory');
         } else {
