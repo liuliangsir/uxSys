@@ -4,7 +4,7 @@ var router = express.Router();
 var filter = require('../passport.js');
 var Appendix = require('../../db/appendix');
 var resumable = require('./resumable.js')(path.join(__dirname,'../../public/tmp/'));
-
+var contentDisposition = require('content-disposition');
 
 // Handle uploads through Resumable.js
 router.post('/upload', function (req, res) {
@@ -61,9 +61,9 @@ router.get('/upload', function (req, res) {
     });
 });
 
-router.get('/download/:identifier', function (req, res) {
-    res.setHeader('Content-Disposition', contentDisposition('盗墓笔记.The.Lost.Tomb.Season.1.E08.HD720P.X264.AAC.Mandarin.CHS.mp4'));
-    resumable.write(req.params.identifier, res);
+router.get('/download', function (req, res) {
+    res.setHeader('Content-Disposition', contentDisposition(req.query.fileName));
+    resumable.write(req.query.identifier, res);
 });
 
 module.exports = router;
