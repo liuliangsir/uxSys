@@ -50,57 +50,152 @@
 </header>
 
 
-<form id="projectForm"   class="W_uxContent">
+<form id="projectForm" class="W_uxContent W_uxContentAdd">
     <ul>
-        <li><span>项目名称：</span><input type="text" name="projectName" placeholder="请输入项目名字" required></li>
-        <li><span>项目描述：</span><textarea name="description" placeholder="请输入项目描述" required></textarea></li>
+        <li>标题</li>
         <li>
-            <a id="J_selectFile">新增文件</a>
+            <input class="W_uxInput" type="text" name="projectName" placeholder="请输入项目名字" required>
+        </li>
+        <li>简介</li>
+        <li>
+            <textarea class="W_uxTextarea" name="description" placeholder="请输入项目描述" required></textarea>
+        </li>
+        <li>上传PDF文件</li>
+
+        <li>
+            <a href="javascript:;" class="W_uxBtnY W_ux144" id="J_selectPDF">上传PDF</a>
+        </li>
+        <li class="W_uxFlexBox">
+            <span class="W_uxFlexItem W_uxFlexItem80">上传音频文件</span>
+            <a href="javascript:;" class="W_uxCenter W_uxFlexItem" id="J_selectAudio">新增</a>
+        </li>
+        <li class="W_uxFlexBox">
+            <span class="W_uxFlexItem W_uxFlexItem80">上传视频频文件</span>
+            <a href="javascript:;" class="W_uxCenter W_uxFlexItem" id="J_selectVideo">新增</a>
+        </li>
+        <li>
+            <a href="/admin" class="W_uxBtnG W_ux183">取消</a>
+            <button type="submit" class="W_uxBtnY W_ux183">提交</button>
         </li>
     </ul>
-    <button type="submit">确定</button>
-    <a href="/admin">取消</a>
+
 </form>
 
 
 <script src="http://libs.useso.com/js/jquery/2.1.1-rc2/jquery.min.js"></script>
 <script src="/js/resumable.js"></script>
 <script>
-    var r = new Resumable({
-        target:'/file/upload',
-        chunkSize:1*1024*1024,
-        simultaneousUploads:8,
-        query:{
-            realType:'pdf',
-            realName:'test'
+    var selectPDF = new Resumable({
+        target: '/file/upload',
+        chunkSize: 10 * 1024 * 1024,
+        simultaneousUploads: 8,
+        query: {
+            realType: 'pdf'
         },
-        throttleProgressCallbacks:1
+        throttleProgressCallbacks: 1
     });
 
-    r.assignBrowse($('#J_selectFile')[0]);
+    selectPDF.assignBrowse($('#J_selectPDF')[0]);
 
-    r.on('fileAdded', function(file){
+    selectPDF.on('fileAdded', function (file) {
         // Show progress pabr
-        var tpl = '<div data-unique-identifier="'+file.uniqueIdentifier+'">'+file.fileName+'</div>';
-        $('#J_selectFile').before(tpl);
-        r.upload();
+        var tpl = '<li class="W_uxFlexBox">' +
+                '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80">' +
+                '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
+                '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
+                '<div class="W_uxProgressBar"></div>' +
+                '</div>' +
+                '<a class="W_uxFlexItem W_uxCenter J_wxDelFile" href="javascript:;">删除</a>' +
+                '</li>';
+        $('#J_selectPDF').parents('li').before(tpl);
+//        r.upload();
     });
-    r.on('fileSuccess', function(file,message){
+    selectPDF.on('fileSuccess', function (file, message) {
         // Reflect that the file upload has completed
-        console.log('success',file,message);
+        console.log('success', file, message);
     });
-    r.on('fileError', function(file, message){
-        console.log('error',file,message);
+    selectPDF.on('fileError', function (file, message) {
+        console.log('error', file, message);
 
     });
 </script>
+<script>
+    var selectAudio = new Resumable({
+        target: '/file/upload',
+        chunkSize: 10 * 1024 * 1024,
+        simultaneousUploads: 8,
+        query: {
+            realType: 'pdf'
+        },
+        throttleProgressCallbacks: 1
+    });
 
+    selectAudio.assignBrowse($('#J_selectAudio')[0]);
+
+    selectAudio.on('fileAdded', function (file) {
+        // Show progress pabr
+        var tpl = '<li class="W_uxFlexBox">' +
+                '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80">' +
+                '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
+                '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
+                '<div class="W_uxProgressBar"></div>' +
+                '</div>' +
+                '<a class="W_uxFlexItem W_uxCenter J_wxDelFile" href="javascript:;">删除</a>' +
+                '</li>';
+        $('#J_selectAudio').parents('li').after(tpl);
+//        r.upload();
+    });
+    selectAudio.on('fileSuccess', function (file, message) {
+        // Reflect that the file upload has completed
+        console.log('success', file, message);
+    });
+    selectAudio.on('fileError', function (file, message) {
+        console.log('error', file, message);
+
+    });
+</script>
+<script>
+    var selectVideo = new Resumable({
+        auto: true,
+        target: '/file/upload',
+        chunkSize: 10 * 1024 * 1024,
+        simultaneousUploads: 8,
+        query: {
+            realType: 'pdf'
+        },
+        throttleProgressCallbacks: 1
+    });
+
+    selectVideo.assignBrowse($('#J_selectVideo')[0]);
+
+    selectVideo.on('fileAdded', function (file) {
+        // Show progress pabr
+        var tpl = '<li class="W_uxFlexBox">' +
+                '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80">' +
+                '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
+                '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
+                '<div class="W_uxProgressBar"></div>' +
+                '</div>' +
+                '<a class="W_uxFlexItem W_uxCenter J_wxDelFile" href="javascript:;">删除</a>' +
+                '</li>';
+        $('#J_selectVideo').parents('li').after(tpl);
+//        r.upload();
+    });
+    selectVideo.on('fileSuccess', function (file, message) {
+        // Reflect that the file upload has completed
+        console.log('success', file, message);
+    });
+    selectVideo.on('fileError', function (file, message) {
+        console.log('error', file, message);
+
+    });
+</script>
 
 <script>
     var $projectForm = $('#projectForm');
 
 
-    $projectForm.on('submit', function(e) {
+    $projectForm.on('submit', function (e) {
         e.preventDefault();
         var data = new FormData(this);
         $.ajax({
@@ -109,10 +204,10 @@
             contentType: false,
             processData: false,
             data: data
-        }).done(function(msg) {
+        }).done(function (msg) {
             window.location.href = '/admin';
-        }).fail(function(msg) {
-                alert(msg);
+        }).fail(function (msg) {
+            alert(msg);
         });
     });
 </script>
