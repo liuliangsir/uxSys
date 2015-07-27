@@ -300,6 +300,19 @@ textarea.W_uxTextarea{
     height: 24px;
 }
 
+.W_uxAudio{
+    display: block;
+}
+
+.W_uxVideo{
+    display: block;
+    width: 100%;
+}
+
+.W_uxLabel{
+    line-height: 0.3rem;
+}
+
 @media screen and (max-width: 700px) {
     .W_uxContent{
         width: 80%;

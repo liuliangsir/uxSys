@@ -71,19 +71,19 @@
     </div>
     <% if (model.appendixList.length>0) { %>
         <% model.appendixList.forEach(function(el){%>
+            <% if (el.type == 'pdf') { %>
+                    <span class="W_uxNone J_fileInfo" data-type="<%=el.type%>" data-link-url="<%=el.linkUrl%>"
+                          data-name="<%=el.name%>"></span>
+            <canvas id="the-canvas"  height="0" width="0"></canvas>
+             <%}%>
             <% if (el.type == 'audio') { %>
-                <audio controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></audio>
+                <label class="W_uxLabel"><%=el.name%></label><audio class="W_uxAudio" controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></audio>
             <%}%>
             <% if (el.type == 'video') { %>
-            <video controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></video>
-            <%}%>
-            <% if (el.type == 'pdf') { %>
-            <span class="W_uxNone J_fileInfo" data-type="<%=el.type%>" data-link-url="<%=el.linkUrl%>"
-                  data-name="<%=el.name%>"></span>
+            <label class="W_uxLabel"><%=el.name%></label><video  class="W_uxVideo"  controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></video>
             <%}%>
         <%})%>
     <%}%>
-    <canvas id="the-canvas" style="border:1px solid black" height="0" width="0"></canvas>
 </div>
 <script src="http://libs.useso.com/js/jquery/2.1.1-rc2/jquery.min.js"></script>
 <script src="/js/pdf.js"></script>
