@@ -120,6 +120,13 @@ body {
     overflow:hidden;
 }
 
+.W_uxFlexItem60{
+    flex-basis: 50%;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+
 .W_uxPadding40{
     padding: 40px 0 40px 0;
 }
@@ -253,18 +260,45 @@ textarea.W_uxTextarea{
     color: #f39800;
 }
 
+.W_uxContent li{
+    display: flex;
+}
+
 .W_uxContentAdd li.W_uxFlexBox:after{
     display: none;
 }
 
 .W_uxCenter{
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 .W_uxNone{
     display: none;
 }
 
-
+#uploadvideo{
+    flex: 1 1 auto;
+}
+#uploadvideo .in{
+     height: 50px;
+     border: 1px solid #c9c9c9;
+     width: 50%;
+}
+#uploadvideo .btn{
+    height: 50px;
+    border: 1px solid #c9c9c9;
+    width: 15%;
+    padding: 0 10px;
+    background-color: white;
+    cursor: pointer;
+}
+#uploadvideo .btn i{
+    background: url("/images/iconupload.svg");
+    width: 24px;
+    height: 24px;
+}
 
 @media screen and (max-width: 700px) {
     .W_uxContent{

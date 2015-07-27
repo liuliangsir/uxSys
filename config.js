@@ -6,7 +6,13 @@ var config = {
     backHash:'/admin'
 };
 
-
+//var config = {
+//    NODE_ENV:'dev',
+//    port:8787,
+//    passport: 'http://yhd.adanghome.com/passport',
+//    domain:'http://127.0.0.1:8787',
+//    backHash:'/admin'
+//};
 
 if ( typeof module === "object" && typeof module.exports === "object" ) {
     module.exports = config;

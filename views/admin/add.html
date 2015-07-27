@@ -61,12 +61,12 @@
             <textarea class="W_uxTextarea" name="description" placeholder="请输入项目描述" required></textarea>
         </li>
         <li>上传PDF文件</li>
-
         <li>
             <a href="javascript:;" class="W_uxBtnY W_ux144" id="J_selectPDF">上传PDF</a>
         </li>
         <li class="W_uxFlexBox">
             <span class="W_uxFlexItem W_uxFlexItem80">上传音频文件</span>
+            <div id="uploadaudio"></div>
             <a href="javascript:;" class="W_uxCenter W_uxFlexItem" id="J_selectAudio">新增</a>
         </li>
         <li class="W_uxFlexBox">
@@ -86,143 +86,134 @@
 <script src="/js/resumable.js"></script>
 <script>
     var fileData = [];
+    function upLoadfile(obj) {
+        var selectFile = new Resumable({
+            target: '/file/upload',
+            chunkSize: 10 * 1024 * 1024,
+            simultaneousUploads: 8,
+            query: {
+                realType: obj.type,
+                realName: obj.filename || ""
+            },
+            fileType: [obj.filetype],
+            testChunks: false,
+            throttleProgressCallbacks: 1
+        });
+
+        selectFile.assignBrowse(obj.id[0]);
+
+        selectFile.on('fileAdded', function (file) {
+            // Show progress pabr
+            var tpl = '<li class="W_uxFlexBox J_ux_'+obj.type+'">' +
+                    '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80" id="' + file.uniqueIdentifier + '">' +
+                    '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
+                    '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
+                    '<div class="W_uxProgressBar"></div>' +
+                    '</div>' +
+                    '<a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" href="javascript:;">删除</a>' +
+                    '</li>';
+            var hasTpl = '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80" id="' + file.uniqueIdentifier + '">' +
+                    '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
+                    '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
+                    '<div class="W_uxProgressBar"></div>' +
+                    '</div>' +
+                    '<a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" href="javascript:;">删除</a>';
+            var pli = $('.J_ux_'+obj.type+'');
+            if (obj.type=='pdf' && pli.length>0) {
+                pli.html(hasTpl);
+            } else {
+                if(obj.type=='pdf'){
+                    obj.id.parents('li').before(tpl);
+                }else{
+                    obj.id.parents('li').after(tpl);
+                }
+
+            }
+            selectFile.upload();
+        });
+        selectFile.on('fileSuccess', function (file, message) {
+            var $delfiel = $('#' + file.uniqueIdentifier).next('.J_uxDelFile');
+            $delfiel.css('display', 'flex');
+            var msg = $.parseJSON(message);
+            if (msg.success) {
+                fileData.push(msg.model);
+                $delfiel.data('mid',msg.model._id)
+
+            }
+
+            console.log('success', file, message);
+        });
+        selectFile.on('fileError', function (file, message) {
+            console.log('error', file, message);
+
+        });
+        selectFile.on('fileProgress', function (file) {
+            var curProgress = Math.floor((file.progress() * 100), 10) + '%';
+            $('#' + file.uniqueIdentifier + ' .W_uxProgressBar').width(curProgress);
+            $('#' + file.uniqueIdentifier + ' .W_uxProgressNum').html(curProgress);
+        });
+
+
+    }
+
 </script>
 <script>
-    var selectPDF = new Resumable({
-        target: '/file/upload',
-        chunkSize: 10 * 1024 * 1024,
-        simultaneousUploads: 8,
-        query: {
-            realType: 'pdf'
-        },
-        fileType:['application/pdf'],
-        testChunks:false,
-        throttleProgressCallbacks: 1
-    });
+    upLoadfile({
+        id: $('#J_selectPDF'),
+        filetype: 'application/pdf',
+        type:'pdf'
+    })
+    upLoadfile({
+        id: $('#J_selectAudio'),
+        filetype: 'audio/mpeg',
+        type:'audio'
+    })
+    upLoadfile({
+        id: $('#J_selectVideo'),
+        filetype: 'video/mp4',
+        type:'video'
+    })
 
-    selectPDF.assignBrowse($('#J_selectPDF')[0]);
-
-    selectPDF.on('fileAdded', function (file) {
-        // Show progress pabr
-        var tpl = '<li id="J_uxPDF" class="W_uxFlexBox">' +
-                '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80" id="' + file.uniqueIdentifier + '">' +
-                '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
-                '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
-                '<div class="W_uxProgressBar"></div>' +
-                '</div>' +
-                '<a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" href="javascript:;">删除</a>' +
-                '</li>';
-        var hasTpl = '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80" id="' + file.uniqueIdentifier + '">' +
-                '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
-                '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
-                '<div class="W_uxProgressBar"></div>' +
-                '</div>' +
-                '<a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" href="javascript:;">删除</a>';
-        if ($('#J_uxPDF').length > 0) {
-            $('#J_uxPDF').html(hasTpl);
-        } else {
-            $('#J_selectPDF').parents('li').before(tpl);
-        }
-        selectPDF.upload();
-    });
-    selectPDF.on('fileSuccess', function (file, message) {
-        $('#' + file.uniqueIdentifier).next('.J_uxDelFile').show();
-        var msg = $.parseJSON(message);
-        if(msg.success){
-            fileData.push(msg.model);
-        }
-        console.log('success', file, message);
-    });
-    selectPDF.on('fileError', function (file, message) {
-        console.log('error', file, message);
-
-    });
-    selectPDF.on('fileProgress', function (file) {
-        var curProgress = Math.floor((file.progress() * 100),10) + '%';
-        $('#' + file.uniqueIdentifier + ' .W_uxProgressBar').width(curProgress);
-        $('#' + file.uniqueIdentifier + ' .W_uxProgressNum').html(curProgress);
-    });
 </script>
-<script>
-    var selectAudio = new Resumable({
-        target: '/file/upload',
-        chunkSize: 10 * 1024 * 1024,
-        simultaneousUploads: 8,
-        query: {
-            realType: 'pdf'
-        },
-        throttleProgressCallbacks: 1
-    });
 
-    selectAudio.assignBrowse($('#J_selectAudio')[0]);
-
-    selectAudio.on('fileAdded', function (file) {
-        // Show progress pabr
-        var tpl = '<li class="W_uxFlexBox">' +
-                '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80">' +
-                '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
-                '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
-                '<div class="W_uxProgressBar"></div>' +
-                '</div>' +
-                '<a class="W_uxFlexItem W_uxCenter J_wxDelFile" href="javascript:;">删除</a>' +
-                '</li>';
-        $('#J_selectAudio').parents('li').after(tpl);
-//        r.upload();
-    });
-    selectAudio.on('fileSuccess', function (file, message) {
-        // Reflect that the file upload has completed
-        console.log('success', file, message);
-    });
-    selectAudio.on('fileError', function (file, message) {
-        console.log('error', file, message);
-
-    });
-</script>
-<script>
-    var selectVideo = new Resumable({
-        auto: true,
-        target: '/file/upload',
-        chunkSize: 10 * 1024 * 1024,
-        simultaneousUploads: 8,
-        query: {
-            realType: 'pdf'
-        },
-        throttleProgressCallbacks: 1
-    });
-
-    selectVideo.assignBrowse($('#J_selectVideo')[0]);
-
-    selectVideo.on('fileAdded', function (file) {
-        // Show progress pabr
-        var tpl = '<li class="W_uxFlexBox">' +
-                '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80">' +
-                '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
-                '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
-                '<div class="W_uxProgressBar"></div>' +
-                '</div>' +
-                '<a class="W_uxFlexItem W_uxCenter J_wxDelFile" href="javascript:;">删除</a>' +
-                '</li>';
-        $('#J_selectVideo').parents('li').after(tpl);
-//        r.upload();
-    });
-    selectVideo.on('fileSuccess', function (file, message) {
-        // Reflect that the file upload has completed
-        console.log('success', file, message);
-    });
-    selectVideo.on('fileError', function (file, message) {
-        console.log('error', file, message);
-
-    });
-</script>
 
 <script>
     var $projectForm = $('#projectForm');
 
 
+    $projectForm.on('click','.J_uxDelFile',function(){
+        var that = $(this);
+         var mid = that.data('mid');
+        if(mid!=undefined && mid!=""){
+            $.ajax({
+                method: "POST",
+                url: "/file/delupload",
+                data: {
+                    fileid:mid
+                }
+            }).done(function (msg) {
+                if(msg.success){
+                    that.parent('li').remove();
+                    console.log(fileData)
+                    fileData.forEach(function (file,index) {
+                        if(file._id===mid){
+                            fileData.splice(index,1);
+                        }
+                    })
+                }
+            }).fail(function (msg) {
+                console.log(msg)
+            });
+
+        }
+
+    })
+
+
     $projectForm.on('submit', function (e) {
         e.preventDefault();
         var data = new FormData(this);
-        data.append('fileData',JSON.stringify(fileData));
+        data.append('fileData', JSON.stringify(fileData));
         $.ajax({
             method: "POST",
             url: "/addProject",

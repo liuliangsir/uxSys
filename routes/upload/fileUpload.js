@@ -42,6 +42,34 @@ router.post('/upload', function (req, res) {
     });
 });
 
+
+router.post('/delupload', function (req, res) {
+    filter.authorize(req, res, function (req, res) {
+        var fileid = req.body.fileid;
+        Appendix.updateAppendix(fileid, function (err, btncomEntity) {
+            if (err) {
+                res.status('500');
+                res.send({
+                    success: false, // 标记失败
+                    model: {
+                        error: '系统错误'
+                    }
+                });
+            } else {
+                res.status('200');
+                res.send({
+                    success: true
+                });
+            }
+        });
+
+    });
+});
+
+
+
+
+
 // Handle cross-domain requests
 // NOTE: Uncomment this funciton to enable cross-domain request.
 /*
