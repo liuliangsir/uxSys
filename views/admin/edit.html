@@ -62,6 +62,13 @@
                       required><%=model.description%></textarea>
         </li>
         <li>上传PDF文件</li>
+        <% if (model.appendixList.length>0) { %>
+            <% model.appendixList.forEach(function(el){%>
+                <% if (el.type == 'pdf') { %>
+                    <li><%=el.name%></li>
+                <%}%>
+            <%})%>
+        <%}%>
         <li>
             <a href="javascript:;" class="W_uxBtnY W_ux144" id="J_selectPDF">上传PDF</a>
         </li>
@@ -69,10 +76,24 @@
             <span class="W_uxFlexItem W_uxFlexItem80">上传音频文件</span>
             <a href="javascript:;" class="W_uxCenter W_uxFlexItem" id="J_selectAudio">新增</a>
         </li>
+        <% if (model.appendixList.length>0) { %>
+            <% model.appendixList.forEach(function(el){%>
+                <% if (el.type == 'audio') { %>
+                <li><%=el.name%></li>
+                <%}%>
+            <%})%>
+        <%}%>
         <li class="W_uxFlexBox">
             <span class="W_uxFlexItem W_uxFlexItem80">上传视频频文件</span>
             <a href="javascript:;" class="W_uxCenter W_uxFlexItem" id="J_selectVideo">新增</a>
         </li>
+        <% if (model.appendixList.length>0) { %>
+            <% model.appendixList.forEach(function(el){%>
+                <% if (el.type == 'video') { %>
+                <li><%=el.name%></li>
+                <%}%>
+            <%})%>
+        <%}%>
         <li>
             <a href="/admin" class="W_uxBtnG W_ux183">取消</a>
             <button type="submit" class="W_uxBtnY W_ux183">提交</button>
