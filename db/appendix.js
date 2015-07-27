@@ -21,7 +21,7 @@ AppendixSchema.static('linkProject', function (fileId, projectEntity) {
 });
 
 AppendixSchema.static('getListByProject', function (projectId, cb) {
-    return this.find({project: projectId}).exec(cb);
+    return this.find({project: projectId,state:1}).exec(cb);
 });
 AppendixSchema.static('getAppendix', function (AppendixId, cb) {
     return this.findById(AppendixId, cb);
