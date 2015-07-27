@@ -136,6 +136,7 @@
             $delfiel.css('display', 'flex');
             var msg = $.parseJSON(message);
             if (msg.success) {
+                msg.model.fileEntity = file;
                 fileData.push(msg.model);
                 $delfiel.data('mid',msg.model._id)
 
@@ -153,26 +154,26 @@
             $('#' + file.uniqueIdentifier + ' .W_uxProgressNum').html(curProgress);
         });
 
-
+        return selectFile;
     }
 
 </script>
 <script>
-    upLoadfile({
+    var pdfFile = upLoadfile({
         id: $('#J_selectPDF'),
         filetype: 'application/pdf',
         type:'pdf'
-    })
-    upLoadfile({
+    });
+    var audioFile = upLoadfile({
         id: $('#J_selectAudio'),
         filetype: 'audio/mpeg',
         type:'audio'
-    })
-    upLoadfile({
+    });
+    var videoFile =  upLoadfile({
         id: $('#J_selectVideo'),
         filetype: 'video/mp4',
         type:'video'
-    })
+    });
 
 </script>
 
@@ -194,9 +195,12 @@
             }).done(function (msg) {
                 if(msg.success){
                     that.parent('li').remove();
-                    console.log(fileData)
                     fileData.forEach(function (file,index) {
                         if(file._id===mid){
+                            pdfFile.removeFile(file.fileEntity);
+                            audioFile.removeFile(file.fileEntity);
+                            videoFile.removeFile(file.fileEntity);
+
                             fileData.splice(index,1);
                         }
                     })
@@ -207,7 +211,7 @@
 
         }
 
-    })
+    });
 
 
     $projectForm.on('submit', function (e) {
