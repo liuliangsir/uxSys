@@ -218,6 +218,11 @@
     $projectForm.on('submit', function (e) {
         e.preventDefault();
         var data = new FormData(this);
+        fileData.map(function(oneVal){
+            delete oneVal.fileEntity;
+            return oneVal;
+        });
+        data.append('fileData', JSON.stringify(fileData));
         $.ajax({
             method: "POST",
             url: "/updateProject",
