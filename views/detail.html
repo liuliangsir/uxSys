@@ -70,10 +70,18 @@
         <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
     </div>
     <% if (model.appendixList.length>0) { %>
-    <% model.appendixList.forEach(function(el){%>
-    <span class="W_uxNone J_fileInfo" data-type="<%=el.type%>" data-link-url="<%=el.linkUrl%>"
-          data-name="<%=el.name%>"></span>
-    <%})%>
+        <% model.appendixList.forEach(function(el){%>
+            <% if (el.type == 'audio') { %>
+                <audio controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></audio>
+            <%}%>
+            <% if (el.type == 'video') { %>
+            <video controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></video>
+            <%}%>
+            <% if (el.type == 'pdf') { %>
+            <span class="W_uxNone J_fileInfo" data-type="<%=el.type%>" data-link-url="<%=el.linkUrl%>"
+                  data-name="<%=el.name%>"></span>
+            <%}%>
+        <%})%>
     <%}%>
     <canvas id="the-canvas" style="border:1px solid black" height="0" width="0"></canvas>
 </div>
