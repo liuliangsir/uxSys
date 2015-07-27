@@ -29,18 +29,9 @@ AppendixSchema.static('getAppendix', function (AppendixId, cb) {
 
 
 AppendixSchema.static('updateAppendix', function (AppendixId, cb) {
-    var that =this;
-    that.findById(AppendixId, function (err,appendixEntity) {
-        if (err) {
-            return cb;
-        } else {
-            appendixEntity.state = 2;
-            return that.findOneAndUpdate({
-                _id: appendixEntity._id
-            }, appendixEntity, {'new': true}).exec(cb);
-
-        }
-    });
+    return this.findOneAndUpdate({
+        _id: AppendixId
+    }, {state: 2}, {'new': true}).exec(cb);
 
 });
 
