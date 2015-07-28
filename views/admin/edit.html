@@ -65,12 +65,13 @@
         <% if (model.appendixList.length>0) { %>
         <% model.appendixList.forEach(function(el){%>
         <% if (el.type == 'pdf') { %>
-            <li class="W_uxFlexBox J_ux_<%=el.type%>">
-                <div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80"><span
-                        class="W_uxFlexItem W_uxFlexItem80"><%=el.name%></span>
-                </div>
-                <a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" data-mid="<%=el._id%>" href="javascript:;" style="display: flex;">删除</a>
-            </li>
+        <li class="W_uxFlexBox J_ux_<%=el.type%>">
+            <div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80"><span
+                    class="W_uxFlexItem W_uxFlexItem80"><%=el.name%></span>
+            </div>
+            <a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" data-mid="<%=el._id%>" href="javascript:;"
+               style="display: flex;">删除</a>
+        </li>
         <%}%>
         <%})%>
         <%}%>
@@ -88,7 +89,8 @@
             <div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80"><span
                     class="W_uxFlexItem W_uxFlexItem80"><%=el.name%></span>
             </div>
-            <a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" data-mid="<%=el._id%>"  href="javascript:;" style="display: flex;">删除</a>
+            <a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" data-mid="<%=el._id%>" href="javascript:;"
+               style="display: flex;">删除</a>
         </li>
         <%}%>
         <%})%>
@@ -104,7 +106,8 @@
             <div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80"><span
                     class="W_uxFlexItem W_uxFlexItem80"><%=el.name%></span>
             </div>
-            <a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone"  data-mid="<%=el._id%>"  href="javascript:;" style="display: flex;">删除</a>
+            <a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" data-mid="<%=el._id%>" href="javascript:;"
+               style="display: flex;">删除</a>
         </li>
         <%}%>
         <%})%>
@@ -120,121 +123,29 @@
 
 <script src="http://libs.useso.com/js/jquery/2.1.1-rc2/jquery.min.js"></script>
 <script src="/js/resumable.js"></script>
-<script>
-    var fileData = [];
-    function upLoadfile(obj) {
-        var selectFile = new Resumable({
-            target: '/file/upload',
-            chunkSize: 10 * 1024 * 1024,
-            simultaneousUploads: 8,
-            query: {
-                realType: obj.type,
-                realName: obj.filename || ""
-            },
-            fileType: [obj.filetype],
-            testChunks: false,
-            throttleProgressCallbacks: 1
-        });
-
-        selectFile.assignBrowse(obj.id[0]);
-
-        selectFile.on('fileAdded', function (file) {
-            // Show progress pabr
-            var tpl = '<li class="W_uxFlexBox J_ux_'+obj.type+'">' +
-                    '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80" id="' + file.uniqueIdentifier + '">' +
-                    '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
-                    '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
-                    '<div class="W_uxProgressBar"></div>' +
-                    '</div>' +
-                    '<a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" href="javascript:;">删除</a>' +
-                    '</li>';
-            var hasTpl = '<div class="W_uxFileBox W_uxFlexBox W_uxFlexItem W_uxFlexItem80" id="' + file.uniqueIdentifier + '">' +
-                    '<span class="W_uxFlexItem W_uxFlexItem80">' + file.fileName + '</span>' +
-                    '<span class="W_uxProgressNum W_uxFlexItem">0%</span>' +
-                    '<div class="W_uxProgressBar"></div>' +
-                    '</div>' +
-                    '<a class="W_uxFlexItem W_uxCenter J_uxDelFile W_uxNone" href="javascript:;">删除</a>';
-            var pli = $('.J_ux_'+obj.type+'');
-            if (obj.type=='pdf' && pli.length>0) {
-                pli.html(hasTpl);
-            } else {
-                if(obj.type=='pdf'){
-                    obj.id.parents('li').before(tpl);
-                }else{
-                    obj.id.parents('li').after(tpl);
-                }
-
-            }
-            selectFile.upload();
-        });
-        selectFile.on('fileSuccess', function (file, message) {
-            var $delfiel = $('#' + file.uniqueIdentifier).next('.J_uxDelFile');
-            $delfiel.css('display', 'flex');
-            var msg = $.parseJSON(message);
-            if (msg.success) {
-                msg.model.fileEntity = file;
-                fileData.push(msg.model);
-                $delfiel.data('mid',msg.model._id)
-
-            }
-
-            console.log('success', file, message);
-        });
-        selectFile.on('fileError', function (file, message) {
-            console.log('error', file, message);
-
-        });
-        selectFile.on('fileProgress', function (file) {
-            var curProgress = Math.floor((file.progress() * 100), 10) + '%';
-            $('#' + file.uniqueIdentifier + ' .W_uxProgressBar').width(curProgress);
-            $('#' + file.uniqueIdentifier + ' .W_uxProgressNum').html(curProgress);
-        });
-
-        return selectFile;
-    }
-</script>
-<script>
-    var pdfFile = upLoadfile({
-        id: $('#J_selectPDF'),
-        filetype: 'application/pdf',
-        type:'pdf'
-    });
-    var audioFile = upLoadfile({
-        id: $('#J_selectAudio'),
-        filetype: 'audio/mpeg',
-        type:'audio'
-    });
-    var videoFile =  upLoadfile({
-        id: $('#J_selectVideo'),
-        filetype: 'video/mp4',
-        type:'video'
-    });
-</script>
-
+<script src="/js/uploadfile.js"></script>
 <script>
     var $projectForm = $('#projectForm');
-
-
-    $projectForm.on('click','.J_uxDelFile',function(){
+    $projectForm.on('click', '.J_uxDelFile', function () {
         var that = $(this);
         var mid = that.data('mid');
-        if(mid!=undefined && mid!=""){
+        if (mid != undefined && mid != "") {
             $.ajax({
                 method: "POST",
                 url: "/file/delupload",
                 data: {
-                    fileid:mid
+                    fileid: mid
                 }
             }).done(function (msg) {
-                if(msg.success){
+                if (msg.success) {
                     that.parent('li').remove();
-                    fileData.forEach(function (file,index) {
-                        if(file._id===mid){
+                    fileData.forEach(function (file, index) {
+                        if (file._id === mid) {
                             pdfFile.removeFile(file.fileEntity);
                             audioFile.removeFile(file.fileEntity);
                             videoFile.removeFile(file.fileEntity);
 
-                            fileData.splice(index,1);
+                            fileData.splice(index, 1);
                         }
                     })
                 }
@@ -250,7 +161,7 @@
     $projectForm.on('submit', function (e) {
         e.preventDefault();
         var data = new FormData(this);
-        fileData.map(function(oneVal){
+        fileData.map(function (oneVal) {
             delete oneVal.fileEntity;
             return oneVal;
         });
