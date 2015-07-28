@@ -278,27 +278,6 @@ textarea.W_uxTextarea{
     display: none;
 }
 
-#uploadvideo{
-    flex: 1 1 auto;
-}
-#uploadvideo .in{
-     height: 50px;
-     border: 1px solid #c9c9c9;
-     width: 50%;
-}
-#uploadvideo .btn{
-    height: 50px;
-    border: 1px solid #c9c9c9;
-    width: 15%;
-    padding: 0 10px;
-    background-color: white;
-    cursor: pointer;
-}
-#uploadvideo .btn i{
-    background: url("/images/iconupload.svg");
-    width: 24px;
-    height: 24px;
-}
 
 .W_uxAudio{
     display: block;
@@ -309,12 +288,54 @@ textarea.W_uxTextarea{
     width: 100%;
 }
 
-.W_uxLabel{
+.W_uxLabel {
     line-height: 0.3rem;
 }
+.W_uxpdfpreview{
+    width: 100%;
+    height: 50px;
+    background-color: #c9c9c9;
+    line-height: 50px;
+    text-align: center;
+    position: relative;
+}
 
+#prev{
+    width: 20px;
+    height: 16px;
+    background: url("/images/xiangzuo.svg");
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}
+
+#next{
+    width: 20px;
+    height: 16px;
+    background: url("/images/xiangyou.svg");
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+
+}
+#quanping{
+    width: 20px;
+    height: 20px;
+    background: url("/images/quanping.svg");
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+}
+
+.W_uxpdfdown{
+    margin:10px 0 0 0;
+}
 @media screen and (max-width: 700px) {
     .W_uxContent{
         width: 80%;
     }
 }
+

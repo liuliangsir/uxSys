@@ -63,34 +63,53 @@
 
     <h3 class="W_uxDescription"><%=model.description%></h3>
 
-    <div>
-        <button id="prev">Previous</button>
-        <button id="next">Next</button>
-        &nbsp; &nbsp;
-        <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
-    </div>
+
     <% if (model.appendixList.length>0) { %>
-        <% model.appendixList.forEach(function(el){%>
-            <% if (el.type == 'pdf') { %>
-                    <span class="W_uxNone J_fileInfo" data-type="<%=el.type%>" data-link-url="<%=el.linkUrl%>"
-                          data-name="<%=el.name%>"></span>
-            <canvas id="the-canvas"  height="0" width="0"></canvas>
-             <%}%>
-        <%})%>
-        <% model.appendixList.forEach(function(el){%>
-            <% if (el.type == 'audio') { %>
-                <label class="W_uxLabel"><%=el.name%></label><audio class="W_uxAudio" controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></audio>
-            <%}%>
-         <%})%>
-        <% model.appendixList.forEach(function(el){%>
-            <% if (el.type == 'video') { %>
-                <label class="W_uxLabel"><%=el.name%></label><video  class="W_uxVideo"  controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></video>
-            <%}%>
-        <%})%>
+    <% model.appendixList.forEach(function(el){%>
+    <% if (el.type == 'pdf') { %>
+    <div id="quan">
+        <canvas id="the-canvas" height="0" width="0" style="display: block;"></canvas>
+             <span class="W_uxNone J_fileInfo" data-type="<%=el.type%>" data-link-url="<%=el.linkUrl%>"
+                   data-name="<%=el.name%>"></span>
+
+        <div class="W_uxpdfpreview">
+            <button id="prev"></button>
+            <span><span id="page_num"></span> / <span id="page_count"></span></span>
+            <button id="next"></button>
+            <button id="quanping"></button>
+        </div>
+        <div class="W_uxpdfdown">
+            <a href="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>" class="W_uxBtnY W_ux144">点击下载</a>
+            <span>文档大小:<%= new Number(el.size).toFixed(2) %>M</span>
+        </div>
+    </div>
+    <%}%>
+    <%})%>
+    <% model.appendixList.forEach(function(el){%>
+    <% if (el.type == 'audio') { %>
+    <label class="W_uxLabel"><%=el.name%></label>
+    <audio class="W_uxAudio" controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></audio>
+    <div class="W_uxpdfdown">
+        <a href="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>" class="W_uxBtnY W_ux144">点击下载</a>
+        <span>文档大小:<%= new Number(el.size).toFixed(2) %>M</span>
+    </div>
+    <%}%>
+    <%})%>
+    <% model.appendixList.forEach(function(el){%>
+    <% if (el.type == 'video') { %>
+    <label class="W_uxLabel"><%=el.name%></label>
+    <video class="W_uxVideo" controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></video>
+    <div class="W_uxpdfdown">
+        <a href="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>" class="W_uxBtnY W_ux144">点击下载</a>
+        <span>文档大小:<%= new Number(el.size).toFixed(2) %>M</span>
+    </div>
+    <%}%>
+    <%})%>
     <%}%>
 </div>
 <script src="http://libs.useso.com/js/jquery/2.1.1-rc2/jquery.min.js"></script>
 <script src="/js/pdf.js"></script>
+<script src="/js/screenfull.min.js"></script>
 <script>
     //
     // If absolute URL from the remote server is provided, configure the CORS
@@ -118,12 +137,18 @@
      * Get page info from document, resize canvas accordingly, and render page.
      * @param num Page number.
      */
-    function renderPage(num) {
+    function renderPage(num,w) {
         pageRendering = true;
+        var wd = w || $('.W_uxContent').width() ;
+        if(screenfull.isFullscreen){
+                wd = $(window).width();
+        }else{
+            wd = $('.W_uxContent').width();
+        }
         // Using promise to fetch the page
         pdfDoc.getPage(num).then(function (page) {
             var viewport = page.getViewport(1);
-            scale = $('.W_uxContent').width() / viewport.width;
+            scale = wd / viewport.width;
 
 
             viewport = page.getViewport(scale);
@@ -191,7 +216,7 @@
     /**
      * Asynchronously downloads PDF.
      */
-    PDFJS.cMapUrl='/js/cmaps/';
+    PDFJS.cMapUrl = '/js/cmaps/';
     PDFJS.cMapPacked = true;
     PDFJS.getDocument(pdfUrl).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
@@ -201,11 +226,26 @@
         renderPage(pageNum);
     });
 
-    $(window).resize(function(){
-        setTimeout(function(){
+    $(window).resize(function () {
+        setTimeout(function () {
             renderPage(pageNum);
-        },300);
+        }, 300);
     });
+    $('#quanping').on('click', function () {
+        var dom = document.querySelector('#quan');
+        if (screenfull.enabled) {
+            // We can use `this` since we want the clicked element
+            screenfull.toggle(dom);
+        }
+        var wd = $(window).width();
+        setTimeout(function () {
+            renderPage(pageNum);
+        },300)
+
+    })
+
+
+
 </script>
 </body>
 </html>
