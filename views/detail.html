@@ -76,11 +76,15 @@
                           data-name="<%=el.name%>"></span>
             <canvas id="the-canvas"  height="0" width="0"></canvas>
              <%}%>
+        <%})%>
+        <% model.appendixList.forEach(function(el){%>
             <% if (el.type == 'audio') { %>
                 <label class="W_uxLabel"><%=el.name%></label><audio class="W_uxAudio" controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></audio>
             <%}%>
+         <%})%>
+        <% model.appendixList.forEach(function(el){%>
             <% if (el.type == 'video') { %>
-            <label class="W_uxLabel"><%=el.name%></label><video  class="W_uxVideo"  controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></video>
+                <label class="W_uxLabel"><%=el.name%></label><video  class="W_uxVideo"  controls src="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>"></video>
             <%}%>
         <%})%>
     <%}%>
