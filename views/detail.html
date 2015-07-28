@@ -78,10 +78,10 @@
             <button id="next"></button>
             <button id="quanping"></button>
         </div>
-        <div class="W_uxpdfdown">
-            <a href="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>" class="W_uxBtnY W_ux144">点击下载</a>
-            <span>文档大小:<%= new Number(el.size).toFixed(2) %>M</span>
-        </div>
+    </div>
+    <div class="W_uxpdfdown">
+        <a href="/file/download?identifier=<%=el.linkUrl%>&fileName=<%=el.name%>" class="W_uxBtnY W_ux144">点击下载</a>
+        <span>文档大小:<%= new Number(el.size).toFixed(2) %>M</span>
     </div>
     <%}%>
     <%})%>
@@ -140,16 +140,16 @@
     function renderPage(num,w) {
         pageRendering = true;
         var wd = w || $('.W_uxContent').width() ;
-        if(screenfull.isFullscreen){
-                wd = $(window).width();
-        }else{
-            wd = $('.W_uxContent').width();
-        }
+
         // Using promise to fetch the page
         pdfDoc.getPage(num).then(function (page) {
             var viewport = page.getViewport(1);
-            scale = wd / viewport.width;
 
+            if(screenfull.isFullscreen){
+                scale = ($(window).height()-60) / viewport.height;
+            }else{
+                scale = wd / viewport.width;
+            }
 
             viewport = page.getViewport(scale);
             canvas.height = viewport.height;
