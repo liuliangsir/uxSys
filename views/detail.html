@@ -191,6 +191,8 @@
     /**
      * Asynchronously downloads PDF.
      */
+    PDFJS.cMapUrl='/js/cmaps/';
+    PDFJS.cMapPacked = true;
     PDFJS.getDocument(pdfUrl).then(function (pdfDoc_) {
         pdfDoc = pdfDoc_;
         document.getElementById('page_count').textContent = pdfDoc.numPages;
