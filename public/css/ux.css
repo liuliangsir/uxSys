@@ -39,6 +39,8 @@ body {
 }
 
 .W_uxHref{
+    display: inline-block;
+    width: 100%;
     color: #7d7d7d;
 }
 .W_uxTitle{
