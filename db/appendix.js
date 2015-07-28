@@ -5,6 +5,7 @@ var AppendixSchema = new mongoose.Schema({
     type: String,
     name: String,
     linkUrl: String,
+    size:String,
     state: {type: Number, default: 1},
     project: {
         type: Schema.Types.ObjectId,

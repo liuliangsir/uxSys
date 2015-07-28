@@ -10,7 +10,6 @@ var contentDisposition = require('content-disposition');
 router.post('/upload', function (req, res) {
     filter.authorize(req, res, function (req, res) {
 
-
         resumable.post(req, function (status, filename, original_filename, identifier) {
             //console.log('POST', status, filename, original_filename, identifier);
             if (status == 'done') {
@@ -20,6 +19,7 @@ router.post('/upload', function (req, res) {
                 appendix.type = type;
                 appendix.name = name;
                 appendix.linkUrl = identifier;
+                appendix.size = req.body.resumableTotalSize/(1024*1024);
                 appendix.save(function (err, appendixEntity) {
                     if (err) {
                         res.send(status, {
