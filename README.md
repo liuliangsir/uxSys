@@ -1,4 +1,7 @@
 # uxSys
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/liuliangsir/uxSys.svg)](https://greenkeeper.io/)
+
 用研展示系统
 
 ## 本地开发
